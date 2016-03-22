@@ -16,15 +16,15 @@ def backtolang(exp):
     -------
     str
         A string with the corrsponding stupidlang code
-
     Examples
     --------
-
+    >>> from stupidlang.run import backtolang
     >>> backtolang(None)
-    nil
+    'nil'
     >>> backtolang(True)
-    #t
-    >>> backtolang()
+    '#t'
+    >>> backtolang(10)
+    '10'
     """
     boolmap={True:'#t', False:'#f'}
     if  isinstance(exp, list):
@@ -78,8 +78,37 @@ def run_program_asif_repl(program, env):
 
     str:
         The output of the program as if it were being run in a REPL
+	
+    Examples
+    --------
+    >>> from stupidlang.run import *
+    >>> from stupidlang.evaluator import *
+    >>> from stupidlang.env_dictimpl import *
+    >>> globenv = global_env(Env)
+    >>> program = '''
+    ... (def rad 5)
+    ... rad
+    ... (def radiusfunc (func (radius) (* pi (* radius radius))))
+    ... (radiusfunc rad)
+    ... (def myvar 0)
+    ... (if (== myvar 1) (store rad 6) (store rad 7))
+    ... (radiusfunc rad)
+    ... (== 1 1)
+    ... '''
+    >>> run_program_asif_repl(program,globenv)
+    nil
+    nil
+    5
+    nil
+    78.53981633974483
+    nil
+    nil
+    153.93804002589985
+    #t
+    nil
+
     """
-    prog=Program(prpgram, env)
+    prog=Program(program, env)
     for result in prog.run():
         print(backtolang(result))
 
@@ -100,6 +129,23 @@ def run_program(program, env):
 
     str:
         The last output of the program as if it were being run in a REPL
+
+    Examples
+    --------
+    >>> from stupidlang.run import *
+    >>> from stupidlang.evaluator import *
+    >>> from stupidlang.env_dictimpl import *
+    >>> globenv = global_env(Env)
+    >>> program = '''
+    ... (def rad 5)
+    ... rad
+    ... (def radiusfunc (func (radius) (* pi (* radius radius))))
+    ... (radiusfunc rad)
+    ... (def myvar 0)
+    ... (if (== myvar 1) (store rad 6) (store rad 7))
+    ... (radiusfunc rad)'''
+    >>> run_program(program,globenv)
+    '153.93804002589985'
 
     """
 

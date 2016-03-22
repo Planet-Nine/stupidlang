@@ -83,7 +83,7 @@ class Program():
     """
 
     def __init__(self, program, env):
-        self.program = program
+        self.program = [e.strip() for e in program.split('\n')]
         self.env = env
 
     def __iter__(self):
